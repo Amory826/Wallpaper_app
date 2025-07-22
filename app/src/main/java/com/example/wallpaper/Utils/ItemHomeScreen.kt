@@ -24,7 +24,7 @@ fun WallPagerItem(wall: Wall) {
 
     // Giới hạn chiều cao ở 75% chiều cao màn hình
     val itemHeight =
-        (screenHeight * 0.75f).coerceAtMost(screenHeight * 0.65f) // Đảm bảo không vượt 75%
+        (screenHeight * 0.75f).coerceAtMost(screenHeight * 0.8f) // Đảm bảo không vượt 75%
 
     Box(
         modifier = Modifier

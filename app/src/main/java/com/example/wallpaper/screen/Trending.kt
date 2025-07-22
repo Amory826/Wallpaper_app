@@ -45,7 +45,7 @@ fun TrendingScreen(
             .fillMaxSize()
             .background(Brush.horizontalGradient(colors = ColorPrimary))
             .verticalScroll(rememberScrollState())
-            .padding(bottom = 56.dp)
+            .padding(bottom = 12.dp)
     ) {
         Text(
             text = "BỘ SƯU TẬP",
@@ -117,7 +117,5 @@ fun TrendingScreen(
                 }
             }
         }
-
-        Spacer(Modifier.height(50.dp))
     }
 }

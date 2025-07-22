@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-07-22T06:24:36.190972800Z">
+        <DropdownSelection timestamp="2025-07-22T06:54:10.634653700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Asus vivobook\.android\avd\Small_Phone_API_35.avd" />

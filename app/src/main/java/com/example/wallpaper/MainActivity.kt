@@ -27,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -123,11 +124,27 @@ fun BaseScreen(context: Context, navController: NavController) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            MoviesBottomBar(navType)
+            Column {
+                MoviesBottomBar(navType)
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                        .background(Color.LightGray),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "Quảng cáo", color = Color.Black)
+                }
+            }
         }
-    ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            androidx.compose.animation.Crossfade(
+    ) { paddingValues -> // <--- nhận padding từ Scaffold
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = paddingValues.calculateBottomPadding())
+        ) {
+            Crossfade(
                 targetState = navType.value,
                 modifier = Modifier.weight(1f),
                 label = ""
@@ -145,6 +162,7 @@ fun BaseScreen(context: Context, navController: NavController) {
             }
         }
     }
+
 }
 
 
