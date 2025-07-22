@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -40,6 +41,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.wallpaper.ui.theme.WallpaperTheme
 import com.example.wallpaper.Utils.MoviesBottomBar
 import com.example.wallpaper.model.MovieNavType
+import com.example.wallpaper.model.WallpapersHomeViewModel
+import com.example.wallpaper.model.WallpapersHomeViewModelFactory
 import com.example.wallpaper.screen.HomeScreen
 import com.example.wallpaper.screen.ProfileScreen
 import com.example.wallpaper.screen.TrendingScreen
@@ -74,7 +77,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(navController = navController, startDestination = startDestination) {
                         composable("age_screen") { AgeSelectionScreen(context, navController) }
-                        composable("baseScreen") { BaseScreen() }
+                        composable("baseScreen") { BaseScreen(context) }
                     }
                 }
             }
@@ -84,8 +87,12 @@ class MainActivity : ComponentActivity() {
 
 @Suppress("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun BaseScreen() {
+fun BaseScreen(context: Context) {
     val navType = rememberSaveable { mutableStateOf(MovieNavType.SHOWING) }
+
+    val viewModel: WallpapersHomeViewModel = viewModel(
+        factory = WallpapersHomeViewModelFactory(context)
+    )
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -93,16 +100,7 @@ fun BaseScreen() {
             Column {
                 MoviesBottomBar(navType)
 
-                // Thêm phần quảng cáo
-//                Box(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .height(80.dp)
-//                        .background(Color.LightGray),
-//                    contentAlignment = Alignment.Center
-//                ) {
-//                    Text(text = "Quảng cáo", color = Color.Black)
-//                }
+
             }
         }
     ) {
@@ -117,7 +115,7 @@ fun BaseScreen() {
             ) { navTypeState ->
                 when (navTypeState) {
                     MovieNavType.SHOWING -> HomeScreen()
-                    MovieNavType.TRENDING -> TrendingScreen()
+                    MovieNavType.TRENDING -> TrendingScreen(categories = viewModel.categories)
                     MovieNavType.WATCHLIST -> WatchListScreen()
                     MovieNavType.PROFILE -> ProfileScreen()
                 }
@@ -199,10 +197,10 @@ fun GreetingPreview() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun BasePreview() {
-    WallpaperTheme {
-        BaseScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun BasePreview() {
+//    WallpaperTheme {
+//        BaseScreen()
+//    }
+//}
