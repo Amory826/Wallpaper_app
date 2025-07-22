@@ -1,5 +1,6 @@
 package com.example.wallpaper.screen
 
+import WallsPager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -38,17 +39,19 @@ fun HomeScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(12.dp)
-                    .padding(top = 40.dp)
+                    .padding(top = 32.dp),
+                Alignment.Center
             ) {
                 Text(
-                    "HÌNH NỀN ĐỘNG", style = TextStyle(
+                    "HÌNH NỀN ĐỘNG",
+                    style = TextStyle(
                         color = Color.Black,
-                        fontSize = 34.sp,
+                        fontSize = 28.sp,
                         FontWeight.Bold
-                    )
+                    ),
                 )
             }
-            Spacer(modifier = Modifier.height(28.dp))
         }
+        item { WallsPager() }
     }
 }
