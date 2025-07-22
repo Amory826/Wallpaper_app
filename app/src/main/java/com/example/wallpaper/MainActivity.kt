@@ -1,5 +1,7 @@
 package com.example.wallpaper
 
+import Category
+import Wall
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -25,7 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -35,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -46,6 +48,7 @@ import com.example.wallpaper.model.WallpapersHomeViewModelFactory
 import com.example.wallpaper.screen.HomeScreen
 import com.example.wallpaper.screen.ProfileScreen
 import com.example.wallpaper.screen.TrendingScreen
+import com.example.wallpaper.screen.WallpaperHomeScreen
 import com.example.wallpaper.screen.WatchListScreen
 import com.example.wallpaper.ui.theme.ColorPrimary
 
@@ -63,7 +66,6 @@ class MainActivity : ComponentActivity() {
                     val sharedPrefs =
                         context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-                    // Determine the start destination
                     val startDestination = if (
                         sharedPrefs.contains("age_user") &&
                         sharedPrefs.getString("age_user", null) != null
@@ -76,8 +78,32 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
 
                     NavHost(navController = navController, startDestination = startDestination) {
-                        composable("age_screen") { AgeSelectionScreen(context, navController) }
-                        composable("baseScreen") { BaseScreen(context) }
+                        composable("age_screen") {
+                            AgeSelectionScreen(context, navController)
+                        }
+
+                        composable("baseScreen") {
+                            BaseScreen(context, navController)
+                        }
+
+                        composable("wallpaper_home_screen") {
+                            val wall =
+                                navController.previousBackStackEntry?.savedStateHandle?.get<Wall>("wall_data")
+                            val category =
+                                navController.previousBackStackEntry?.savedStateHandle?.get<Category>(
+                                    "category_data"
+                                )
+
+                            if (wall != null && category != null) {
+                                WallpaperHomeScreen(
+                                    wall = wall,
+                                    category = category,
+                                    onFavoriteClick = {},
+                                    onShareClick = {},
+                                    onDownloadClick = {}
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -87,7 +113,7 @@ class MainActivity : ComponentActivity() {
 
 @Suppress("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun BaseScreen(context: Context) {
+fun BaseScreen(context: Context, navController: NavController) {
     val navType = rememberSaveable { mutableStateOf(MovieNavType.SHOWING) }
 
     val viewModel: WallpapersHomeViewModel = viewModel(
@@ -97,25 +123,22 @@ fun BaseScreen(context: Context) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            Column {
-                MoviesBottomBar(navType)
-
-
-            }
+            MoviesBottomBar(navType)
         }
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Crossfade(
+        Column(modifier = Modifier.fillMaxSize()) {
+            androidx.compose.animation.Crossfade(
                 targetState = navType.value,
                 modifier = Modifier.weight(1f),
                 label = ""
             ) { navTypeState ->
                 when (navTypeState) {
                     MovieNavType.SHOWING -> HomeScreen()
-                    MovieNavType.TRENDING -> TrendingScreen(categories = viewModel.categories)
+                    MovieNavType.TRENDING -> TrendingScreen(
+                        categories = viewModel.categories,
+                        navController = navController
+                    )
+
                     MovieNavType.WATCHLIST -> WatchListScreen()
                     MovieNavType.PROFILE -> ProfileScreen()
                 }

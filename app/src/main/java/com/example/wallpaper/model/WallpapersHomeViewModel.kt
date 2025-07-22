@@ -1,5 +1,7 @@
 package com.example.wallpaper.model
 
+import Category
+import Wall
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -71,7 +73,6 @@ class WallpapersHomeViewModel(context: Context) : ViewModel() {
             categoryDes = "Urban",
             categoryThumb = "cau_vang.jpg",
             wallList = listOf(
-                Wall("2", 1, "cau_vang.jpg", "#city", "Urban", true),
                 Wall("3", 2, "cuoi_nao.jpg", "#city", "Urban", true),
                 Wall("4", 2, "doremon.jpg", "#city", "Urban", true),
                 Wall("5", 1, "man_dem.jpg", "#city", "Urban", true),

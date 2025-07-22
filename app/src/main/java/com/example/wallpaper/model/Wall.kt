@@ -1,5 +1,7 @@
-package com.example.wallpaper.model
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Wall(
     val wallId: String = "",
     val type: Int = 0,
@@ -7,4 +9,4 @@ data class Wall(
     val wallHashtag: String = "",
     val dataSet: String = "",
     val isPremium: Boolean = false
-)
+) : Parcelable

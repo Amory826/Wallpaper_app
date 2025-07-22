@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -63,6 +64,7 @@ dependencies {
     implementation(libs.androidx.foundation.layout.android)
     implementation(libs.androidx.ui.test.android)
     implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.paging.common.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -75,6 +77,10 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
+    implementation("io.coil-kt:coil-compose:2.4.0") // Hoặc phiên bản mới nhất
+    implementation("androidx.compose.material:material:1.5.0") // Hoặc phiên bản phù hợp
+    implementation("androidx.compose.material3:material3:1.2.0")
+    implementation("com.google.code.gson:gson:2.11.0")
 
 
 }
