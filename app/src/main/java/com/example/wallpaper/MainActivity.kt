@@ -37,7 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -87,13 +86,11 @@ class MainActivity : ComponentActivity() {
                             BaseScreen(context, navController)
                         }
 
-                        composable("wallpaper_home_screen") {
-                            val wall =
-                                navController.previousBackStackEntry?.savedStateHandle?.get<Wall>("wall_data")
-                            val category =
-                                navController.previousBackStackEntry?.savedStateHandle?.get<Category>(
-                                    "category_data"
-                                )
+                        composable("wallpaper_home_screen") { navBackStackEntry ->
+                            val wall = navController.previousBackStackEntry
+                                ?.savedStateHandle?.get<Wall>("wall_data")
+                            val category = navController.previousBackStackEntry
+                                ?.savedStateHandle?.get<Category>("category_data")
 
                             if (wall != null && category != null) {
                                 WallpaperHomeScreen(
@@ -150,7 +147,7 @@ fun BaseScreen(context: Context, navController: NavController) {
                 label = ""
             ) { navTypeState ->
                 when (navTypeState) {
-                    MovieNavType.SHOWING -> HomeScreen()
+                    MovieNavType.SHOWING -> HomeScreen(navController, viewModel)
                     MovieNavType.TRENDING -> TrendingScreen(
                         categories = viewModel.categories,
                         navController = navController

@@ -4,6 +4,7 @@ import Wall
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -14,10 +15,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.wallpaper.R
+import com.example.wallpaper.model.WallpapersHomeViewModel
 
 @Composable
-fun WallPagerItem(wall: Wall) {
+fun WallPagerItem(wall: Wall, navController: NavController?, viewModel: WallpapersHomeViewModel) {
     // Lấy thông tin cấu hình màn hình
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
@@ -39,6 +42,17 @@ fun WallPagerItem(wall: Wall) {
             painter = painterResource(id = getWallDrawable(wall.wallThumb)),
             contentDescription = wall.dataSet,
             modifier = Modifier
+                .clickable {
+                    val category = viewModel.getCategoryByWall(wall.type)
+                    if (category != null) {
+                        navController?.currentBackStackEntry?.savedStateHandle?.apply {
+                            set("wall_data", wall)
+                            set("category_data", category)
+                        }
+                        navController?.navigate("wallpaper_home_screen")
+                    }
+
+                }
                 .fillMaxSize()
                 .clip(RoundedCornerShape(16.dp)),
             contentScale = ContentScale.Crop,
