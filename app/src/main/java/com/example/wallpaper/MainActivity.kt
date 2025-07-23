@@ -4,6 +4,7 @@ import Category
 import Wall
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -46,6 +47,7 @@ import com.example.wallpaper.model.MovieNavType
 import com.example.wallpaper.model.WallpapersHomeViewModel
 import com.example.wallpaper.model.WallpapersHomeViewModelFactory
 import com.example.wallpaper.screen.HomeScreen
+import com.example.wallpaper.screen.MoreWallpaperScreen
 import com.example.wallpaper.screen.ProfileScreen
 import com.example.wallpaper.screen.TrendingScreen
 import com.example.wallpaper.screen.WallpaperHomeScreen
@@ -102,6 +104,21 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
+                        composable("wallpaper_more_screen") {
+                            val wall = navController.previousBackStackEntry
+                                ?.savedStateHandle?.get<Wall>("wall_data")
+                            val category = navController.previousBackStackEntry
+                                ?.savedStateHandle?.get<Category>("category_data")
+
+                            Log.d("LogTag", " 12313 ${category.toString()}")
+                            if (category != null) {
+                                MoreWallpaperScreen(
+                                    category = category,
+                                    onBackClick = { navController.popBackStack() },
+                                    navController = navController,
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -124,15 +141,15 @@ fun BaseScreen(context: Context, navController: NavController) {
             Column {
                 MoviesBottomBar(navType)
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp)
-                        .background(Color.LightGray),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "Quảng cáo", color = Color.Black)
-                }
+//                Box(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(80.dp)
+//                        .background(Color.LightGray),
+//                    contentAlignment = Alignment.Center
+//                ) {
+//                    Text(text = "Quảng cáo", color = Color.Black)
+//                }
             }
         }
     ) { paddingValues -> // <--- nhận padding từ Scaffold
@@ -153,7 +170,6 @@ fun BaseScreen(context: Context, navController: NavController) {
                         navController = navController
                     )
 
-                    MovieNavType.WATCHLIST -> WatchListScreen()
                     MovieNavType.PROFILE -> ProfileScreen()
                 }
             }

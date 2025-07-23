@@ -17,6 +17,7 @@ pagingCommonAndroid = "3.3.6"
 foundationAndroid = "1.7.2"
 foundationLayoutAndroid = "1.7.2"
 uiTestAndroid = "1.7.8"
+datastoreCoreAndroid = "1.1.7"
 
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPagerIndicators" }
@@ -44,6 +45,7 @@ androidx-paging-common-android = { group = "androidx.paging", name = "paging-com
 androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroid" }
 androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroid" }
 androidx-ui-test-android = { group = "androidx.compose.ui", name = "ui-test-android", version.ref = "uiTestAndroid" }
+androidx-datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastoreCoreAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

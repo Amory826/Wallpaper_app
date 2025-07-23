@@ -70,19 +70,19 @@ fun MoviesBottomBar(navType: MutableState<MovieNavType>) {
                 )
             )
 
-            NavigationBarItem(
-                icon = { Icon(Icons.Outlined.LibraryAdd, contentDescription = null) },
-                selected = navType.value == MovieNavType.WATCHLIST,
-                onClick = { navType.value = MovieNavType.WATCHLIST },
-                label = { Text("Watchlist") },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.Black,
-                    unselectedIconColor = Color.Black,
-                    selectedTextColor = Color.Black,
-                    unselectedTextColor = Color.Black,
-                    indicatorColor = Color.Transparent
-                )
-            )
+//            NavigationBarItem(
+//                icon = { Icon(Icons.Outlined.LibraryAdd, contentDescription = null) },
+//                selected = navType.value == MovieNavType.WATCHLIST,
+//                onClick = { navType.value = MovieNavType.WATCHLIST },
+//                label = { Text("Watchlist") },
+//                colors = NavigationBarItemDefaults.colors(
+//                    selectedIconColor = Color.Black,
+//                    unselectedIconColor = Color.Black,
+//                    selectedTextColor = Color.Black,
+//                    unselectedTextColor = Color.Black,
+//                    indicatorColor = Color.Transparent
+//                )
+//            )
 
             NavigationBarItem(
                 icon = { Icon(Icons.Outlined.Person, contentDescription = null) },

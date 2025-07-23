@@ -2,6 +2,7 @@
 package com.example.wallpaper.screen
 
 import Category
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -97,11 +98,13 @@ fun TrendingScreen(
                             .background(Color(0xFFF1F1F1))
                             .clickable {
                                 // Mở toàn bộ Category
+                                Log.d("LogTag", category.toString())
                                 navController.currentBackStackEntry
                                     ?.savedStateHandle
                                     ?.set("category_data", category)
 
-                                navController.navigate("wallpaper_home_screen")
+                                // Điều hướng tới màn MoreWallpaperScreen
+                                navController.navigate("wallpaper_more_screen")
                             },
                         contentAlignment = Alignment.Center
                     ) {

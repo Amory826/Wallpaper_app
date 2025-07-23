@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.ui.test.android)
     implementation(libs.androidx.foundation.layout.android)
     implementation(libs.androidx.paging.common.android)
+    implementation(libs.androidx.datastore.core.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -81,6 +82,7 @@ dependencies {
     implementation("androidx.compose.material:material:1.5.0") // Hoặc phiên bản phù hợp
     implementation("androidx.compose.material3:material3:1.2.0")
     implementation("com.google.code.gson:gson:2.11.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.0")
 
 
 }

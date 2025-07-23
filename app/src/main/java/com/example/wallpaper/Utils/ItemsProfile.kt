@@ -54,7 +54,7 @@ fun ItemProfile(
                 text = title,
                 style = TextStyle(
                     color = Color.Black,
-                    fontSize = 22.sp
+                    fontSize = 18.sp
                 ),
             )
         }
