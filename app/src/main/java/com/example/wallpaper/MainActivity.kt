@@ -105,8 +105,8 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         composable("wallpaper_more_screen") {
-                            val wall = navController.previousBackStackEntry
-                                ?.savedStateHandle?.get<Wall>("wall_data")
+//                            val wall = navController.previousBackStackEntry
+//                                ?.savedStateHandle?.get<Wall>("wall_data")
                             val category = navController.previousBackStackEntry
                                 ?.savedStateHandle?.get<Category>("category_data")
 

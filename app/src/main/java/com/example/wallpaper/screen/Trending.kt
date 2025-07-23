@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -96,6 +97,7 @@ fun TrendingScreen(
                             .size(width = 80.dp, height = 160.dp)
                             .clip(RoundedCornerShape(16.dp))
                             .background(Color(0xFFF1F1F1))
+                            .alpha(0.5f)
                             .clickable {
                                 // Mở toàn bộ Category
                                 Log.d("LogTag", category.toString())
