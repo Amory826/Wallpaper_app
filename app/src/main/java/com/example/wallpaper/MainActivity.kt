@@ -100,7 +100,6 @@ class MainActivity : ComponentActivity() {
                                     category = category,
                                     onFavoriteClick = {},
                                     onShareClick = {},
-                                    onDownloadClick = {}
                                 )
                             }
                         }

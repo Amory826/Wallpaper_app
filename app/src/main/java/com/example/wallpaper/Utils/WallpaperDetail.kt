@@ -34,7 +34,6 @@ fun WallpaperDetailItem(
     wall: Wall,
     onFavoriteClick: () -> Unit,
     onShareClick: () -> Unit,
-    onDownloadClick: () -> Unit,
     modifier: Modifier
 ) {
     val context = LocalContext.current
@@ -44,6 +43,9 @@ fun WallpaperDetailItem(
     }
 
     var checkShow by remember { mutableStateOf(true) }
+    var showDialogDownload by remember { mutableStateOf(false) }
+    var showDialogSuccess by remember { mutableStateOf(false) }
+
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -67,6 +69,8 @@ fun WallpaperDetailItem(
                 verticalArrangement = Arrangement.spacedBy(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(Modifier.height(120.dp))
+
                 IconButton(onClick = onFavoriteClick) {
                     Icon(
                         Icons.Default.FavoriteBorder,
@@ -79,7 +83,9 @@ fun WallpaperDetailItem(
                     Icon(Icons.Default.Share, contentDescription = "Chia sẻ", tint = Color.White)
                 }
 
-                IconButton(onClick = onDownloadClick) {
+                IconButton(onClick = {
+                    showDialogDownload = true // Mở dialog ở đây
+                }) {
                     Icon(
                         Icons.Default.Download,
                         contentDescription = "Tải xuống",
@@ -106,6 +112,26 @@ fun WallpaperDetailItem(
 
                 AdBanner()
             }
+        }
+        if (showDialogDownload) {
+            DownloadWallpaperDialog(
+                onDismiss = { showDialogDownload = false },
+                onDownloadClick = {
+                    // Ví dụ: Xử lý quảng cáo hoặc tải ảnh ở đây
+                    showDialogDownload = false
+                    showDialogSuccess = true
+                },
+            )
+        }
+
+        if (showDialogSuccess) {
+            SuccessDownloadDialog(
+                onDismiss = { showDialogSuccess = false },
+                onSetWallpaperClick = {
+                    // Ví dụ: Xử lý quảng cáo hoặc tải ảnh ở đây
+                    showDialogSuccess = false
+                },
+            )
         }
 
     }
@@ -144,7 +170,6 @@ fun WallpaperDetailScreenPreview() {
         wall = wall,
         onFavoriteClick = { /* xử lý yêu thích */ },
         onShareClick = { /* xử lý chia sẻ */ },
-        onDownloadClick = { /* xử lý tải xuống */ },
         modifier = Modifier
     )
 }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -22,7 +23,6 @@ fun WallpaperHomeScreen(
     category: Category,
     onFavoriteClick: (Wall) -> Unit,
     onShareClick: (Wall) -> Unit,
-    onDownloadClick: (Wall) -> Unit
 ) {
     // Tạo danh sách bắt đầu bằng wall đã chọn
     val wallList = remember(wall, category.wallList) {
@@ -39,9 +39,7 @@ fun WallpaperHomeScreen(
         state = pagerState,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
-            .padding(bottom = 50.dp),
-        contentPadding = PaddingValues(0.dp),
+            .background(Color.Black),
         pageSpacing = 0.dp
     ) { page ->
         val currentWall = wallList[page]
@@ -49,7 +47,6 @@ fun WallpaperHomeScreen(
             wall = currentWall,
             onFavoriteClick = { onFavoriteClick(currentWall) },
             onShareClick = { onShareClick(currentWall) },
-            onDownloadClick = { onDownloadClick(currentWall) },
             modifier = Modifier.fillMaxSize()
         )
     }
