@@ -48,7 +48,7 @@ fun SuccessDownloadDialog(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 12.dp)
+                .padding(bottom = 30.dp)
                 .clickable(
                     onClick = onDismiss,
                     indication = null,

@@ -83,6 +83,7 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.2.0")
     implementation("com.google.code.gson:gson:2.11.0")
     implementation("androidx.datastore:datastore-preferences:1.1.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
 
 }

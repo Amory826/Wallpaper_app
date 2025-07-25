@@ -27,6 +27,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -37,6 +38,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -51,6 +53,8 @@ import com.example.wallpaper.model.WallpapersHomeViewModelFactory
 import com.example.wallpaper.screen.HomeScreen
 import com.example.wallpaper.screen.MoreWallpaperScreen
 import com.example.wallpaper.screen.ProfileScreen
+import com.example.wallpaper.screen.SplashScreen
+import com.example.wallpaper.screen.SplashViewModel
 import com.example.wallpaper.screen.TrendingScreen
 import com.example.wallpaper.screen.WallpaperHomeScreen
 import com.example.wallpaper.screen.WatchListScreen
@@ -59,68 +63,73 @@ import com.example.wallpaper.ui.theme.ColorPrimary
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        installSplashScreen()
         setContent {
             WallpaperTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val context = LocalContext.current
-                    val sharedPrefs =
-                        context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                    val viewModel: SplashViewModel = viewModel()
+                    val isLoading by viewModel.isLoading
 
-                    val startDestination = if (
-                        sharedPrefs.contains("age_user") &&
-                        sharedPrefs.getString("age_user", null) != null
-                    ) {
-                        "baseScreen"
+                    if (isLoading) {
+                        SplashScreen()
                     } else {
-                        "age_screen"
-                    }
+                        val context = LocalContext.current
+                        val sharedPrefs =
+                            context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-                    val navController = rememberNavController()
-
-                    CompositionLocalProvider(LocalNavController provides navController) {
-                        NavHost(
-                            navController = navController,
-                            startDestination = startDestination
+                        val startDestination = if (
+                            sharedPrefs.contains("age_user") &&
+                            sharedPrefs.getString("age_user", null) != null
                         ) {
-                            composable("age_screen") {
-                                AgeSelectionScreen(context)
-                            }
+                            "baseScreen"
+                        } else {
+                            "age_screen"
+                        }
 
-                            composable("baseScreen") {
-                                BaseScreen(context)
-                            }
+                        val navController = rememberNavController()
 
-                            composable("wallpaper_home_screen") { navBackStackEntry ->
-                                val wall = navController.previousBackStackEntry
-                                    ?.savedStateHandle?.get<Wall>("wall_data")
-                                val category = navController.previousBackStackEntry
-                                    ?.savedStateHandle?.get<Category>("category_data")
-
-                                if (wall != null && category != null) {
-                                    WallpaperHomeScreen(
-                                        wall = wall,
-                                        category = category,
-                                        onFavoriteClick = {},
-                                        onShareClick = {},
-                                    )
+                        CompositionLocalProvider(LocalNavController provides navController) {
+                            NavHost(
+                                navController = navController,
+                                startDestination = startDestination
+                            ) {
+                                composable("age_screen") {
+                                    AgeSelectionScreen(context)
                                 }
-                            }
-                            composable("wallpaper_more_screen") {
-//                            val wall = navController.previousBackStackEntry
-//                                ?.savedStateHandle?.get<Wall>("wall_data")
-                                val category = navController.previousBackStackEntry
-                                    ?.savedStateHandle?.get<Category>("category_data")
 
-                                Log.d("LogTag", " 12313 ${category.toString()}")
-                                if (category != null) {
-                                    MoreWallpaperScreen(
-                                        category = category,
-                                        onBackClick = { navController.popBackStack() },
-                                    )
+                                composable("baseScreen") {
+                                    BaseScreen(context)
+                                }
+
+                                composable("wallpaper_home_screen") { navBackStackEntry ->
+                                    val wall = navController.previousBackStackEntry
+                                        ?.savedStateHandle?.get<Wall>("wall_data")
+                                    val category = navController.previousBackStackEntry
+                                        ?.savedStateHandle?.get<Category>("category_data")
+
+                                    if (wall != null && category != null) {
+                                        WallpaperHomeScreen(
+                                            wall = wall,
+                                            category = category,
+                                            onFavoriteClick = {},
+                                            onShareClick = {},
+                                        )
+                                    }
+                                }
+                                composable("wallpaper_more_screen") {
+                                    val category = navController.previousBackStackEntry
+                                        ?.savedStateHandle?.get<Category>("category_data")
+
+                                    Log.d("LogTag", " 12313 ${category.toString()}")
+                                    if (category != null) {
+                                        MoreWallpaperScreen(
+                                            category = category,
+                                            onBackClick = { navController.popBackStack() },
+                                        )
+                                    }
                                 }
                             }
                         }
