@@ -170,10 +170,9 @@ fun BaseScreen(context: Context) {
                 label = ""
             ) { navTypeState ->
                 when (navTypeState) {
-                    MovieNavType.SHOWING -> HomeScreen(navController, viewModel)
+                    MovieNavType.SHOWING -> HomeScreen(viewModel)
                     MovieNavType.TRENDING -> TrendingScreen(
                         categories = viewModel.categories,
-                        navController = navController
                     )
 
                     MovieNavType.PROFILE -> ProfileScreen()

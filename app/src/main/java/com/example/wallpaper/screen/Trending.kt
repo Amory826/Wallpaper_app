@@ -36,12 +36,14 @@ import com.example.wallpaper.Utils.ImageCard
 import com.example.wallpaper.ui.theme.ColorPrimary
 
 import androidx.navigation.NavController
+import com.example.wallpaper.Utils.LocalNavController
 
 @Composable
 fun TrendingScreen(
-    categories: List<Category>,
-    navController: NavController
+    categories: List<Category>
 ) {
+    val navController = LocalNavController.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()

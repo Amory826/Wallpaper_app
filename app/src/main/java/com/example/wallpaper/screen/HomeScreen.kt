@@ -18,11 +18,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.wallpaper.Utils.LocalNavController
 import com.example.wallpaper.model.WallpapersHomeViewModel
 import com.example.wallpaper.ui.theme.ColorPrimary
 
 @Composable
-fun HomeScreen(navController: NavController, viewModel: WallpapersHomeViewModel) {
+fun HomeScreen(viewModel: WallpapersHomeViewModel) {
+    val navController = LocalNavController.current
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
