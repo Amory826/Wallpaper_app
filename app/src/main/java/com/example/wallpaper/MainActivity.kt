@@ -26,6 +26,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -41,6 +42,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.wallpaper.Utils.LocalNavController
 import com.example.wallpaper.ui.theme.WallpaperTheme
 import com.example.wallpaper.Utils.MoviesBottomBar
 import com.example.wallpaper.model.MovieNavType
@@ -79,43 +81,47 @@ class MainActivity : ComponentActivity() {
 
                     val navController = rememberNavController()
 
-                    NavHost(navController = navController, startDestination = startDestination) {
-                        composable("age_screen") {
-                            AgeSelectionScreen(context, navController)
-                        }
-
-                        composable("baseScreen") {
-                            BaseScreen(context, navController)
-                        }
-
-                        composable("wallpaper_home_screen") { navBackStackEntry ->
-                            val wall = navController.previousBackStackEntry
-                                ?.savedStateHandle?.get<Wall>("wall_data")
-                            val category = navController.previousBackStackEntry
-                                ?.savedStateHandle?.get<Category>("category_data")
-
-                            if (wall != null && category != null) {
-                                WallpaperHomeScreen(
-                                    wall = wall,
-                                    category = category,
-                                    onFavoriteClick = {},
-                                    onShareClick = {},
-                                )
+                    CompositionLocalProvider(LocalNavController provides navController) {
+                        NavHost(
+                            navController = navController,
+                            startDestination = startDestination
+                        ) {
+                            composable("age_screen") {
+                                AgeSelectionScreen(context)
                             }
-                        }
-                        composable("wallpaper_more_screen") {
+
+                            composable("baseScreen") {
+                                BaseScreen(context)
+                            }
+
+                            composable("wallpaper_home_screen") { navBackStackEntry ->
+                                val wall = navController.previousBackStackEntry
+                                    ?.savedStateHandle?.get<Wall>("wall_data")
+                                val category = navController.previousBackStackEntry
+                                    ?.savedStateHandle?.get<Category>("category_data")
+
+                                if (wall != null && category != null) {
+                                    WallpaperHomeScreen(
+                                        wall = wall,
+                                        category = category,
+                                        onFavoriteClick = {},
+                                        onShareClick = {},
+                                    )
+                                }
+                            }
+                            composable("wallpaper_more_screen") {
 //                            val wall = navController.previousBackStackEntry
 //                                ?.savedStateHandle?.get<Wall>("wall_data")
-                            val category = navController.previousBackStackEntry
-                                ?.savedStateHandle?.get<Category>("category_data")
+                                val category = navController.previousBackStackEntry
+                                    ?.savedStateHandle?.get<Category>("category_data")
 
-                            Log.d("LogTag", " 12313 ${category.toString()}")
-                            if (category != null) {
-                                MoreWallpaperScreen(
-                                    category = category,
-                                    onBackClick = { navController.popBackStack() },
-                                    navController = navController,
-                                )
+                                Log.d("LogTag", " 12313 ${category.toString()}")
+                                if (category != null) {
+                                    MoreWallpaperScreen(
+                                        category = category,
+                                        onBackClick = { navController.popBackStack() },
+                                    )
+                                }
                             }
                         }
                     }
@@ -127,8 +133,9 @@ class MainActivity : ComponentActivity() {
 
 @Suppress("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun BaseScreen(context: Context, navController: NavController) {
+fun BaseScreen(context: Context) {
     val navType = rememberSaveable { mutableStateOf(MovieNavType.SHOWING) }
+    val navController = LocalNavController.current
 
     val viewModel: WallpapersHomeViewModel = viewModel(
         factory = WallpapersHomeViewModelFactory(context)
@@ -179,7 +186,8 @@ fun BaseScreen(context: Context, navController: NavController) {
 
 
 @Composable
-fun AgeSelectionScreen(context: Context, navController: NavController) {
+fun AgeSelectionScreen(context: Context) {
+    val navController = LocalNavController.current
     Box(
         modifier = Modifier.background(
             brush = Brush.horizontalGradient(
@@ -246,7 +254,7 @@ fun AgeSelectionScreen(context: Context, navController: NavController) {
 @Composable
 fun GreetingPreview() {
     WallpaperTheme {
-        AgeSelectionScreen(LocalContext.current, rememberNavController())
+        AgeSelectionScreen(LocalContext.current)
     }
 }
 

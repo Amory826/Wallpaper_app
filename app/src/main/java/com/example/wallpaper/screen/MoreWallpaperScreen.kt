@@ -39,14 +39,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.wallpaper.Utils.LocalNavController
 import com.example.wallpaper.ui.theme.ColorPrimary
 
 @Composable
 fun MoreWallpaperScreen(
     category: Category,
-    onBackClick: () -> Unit,
-    navController: NavController
+    onBackClick: () -> Unit
 ) {
+    val navController = LocalNavController.current
     Column(
         modifier = Modifier
             .fillMaxSize()
